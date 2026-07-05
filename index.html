@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speaksy Blog | AI Voice Agents that Talk to India</title>
+    <meta name="description" content="Explore articles, guides, and case studies about Speaksy Voice AI - the outbound call automation platform designed for India's diverse language landscape.">
+    <link rel="stylesheet" href="index.css">
+    <!-- Favicon using square logo -->
+    <link rel="icon" type="image/png" href="web_logos/logo_49.png">
+</head>
+<body>
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">Link copied to clipboard!</div>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="container header-inner">
+            <a href="#" class="logo-container" id="header-logo-link">
+                <img src="web_logos/logo_50.png" alt="Speaksy Logo" class="logo-img" id="header-logo-img">
+            </a>
+            
+            <nav class="nav-links">
+                <a href="https://speaksy.in" target="_blank" rel="noopener" class="nav-link">Home</a>
+                <a href="https://speaksy.in#features" target="_blank" rel="noopener" class="nav-link">Features</a>
+                <a href="https://speaksy.in#pricing" target="_blank" rel="noopener" class="nav-link">Pricing</a>
+                <a href="#" class="nav-link active">Blogs</a>
+                <a href="https://speaksy.in#contact" target="_blank" rel="noopener" class="nav-link">Contact</a>
+            </nav>
+            
+            <div class="header-actions">
+                <!-- Theme Toggle Button -->
+                <button class="theme-toggle" id="theme-toggle" title="Toggle Theme">
+                    <svg id="theme-icon" viewBox="0 0 24 24">
+                        <!-- Moon Icon by default -->
+                        <path d="M12 3c.132 0 .263 0 .393.007a7.5 7.5 0 0 0 7.92 12.446A9 9 0 1 1 12 3z"/>
+                    </svg>
+                </button>
+                <a href="https://speaksy.in" target="_blank" rel="noopener" class="btn btn-primary">Book a Demo</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="hero-badge">
+                <img src="web_logos/logo_49.png" alt="Icon">
+                <span>Speaksy Voice AI Platform</span>
+            </div>
+            <h1 class="hero-title">The <span>Speaksy.in</span> Blog</h1>
+            <p class="hero-subtitle">Industry intelligence and guides on how AI-powered voice calling is transforming business growth, lead conversions, and customer support across India.</p>
+        </div>
+    </section>
+
+    <!-- Controls Section (Search & Filter) -->
+    <section class="controls-section" id="filters-section">
+        <div class="container">
+            <!-- Search & Sort Row -->
+            <div class="search-bar-row">
+                <div class="search-wrapper">
+                    <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <input type="text" id="search-input" class="search-input" placeholder="Search by title, author, or content...">
+                </div>
+                <div class="sort-wrapper">
+                    <select id="sort-select" class="select-control">
+                        <option value="num-asc">Sort by File Number (Asc)</option>
+                        <option value="num-desc">Sort by File Number (Desc)</option>
+                        <option value="title-asc">Sort Alphabetically (A-Z)</option>
+                        <option value="read-time-asc">Sort by Read Time (Shortest)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Categories & Meta Filters -->
+            <div class="filters-row">
+                <!-- Category Pills (Populated Dynamically) -->
+                <div class="pills-container" id="category-pills">
+                    <!-- Pills added by JS -->
+                </div>
+
+                <div class="meta-filter-row">
+                    <!-- Author Selectors -->
+                    <div class="author-filters">
+                        <span style="font-weight: 600; color: var(--text-secondary); margin-right: 0.5rem;">Author:</span>
+                        <div id="author-pills" style="display: flex; gap: 0.5rem;">
+                            <!-- Author pills added by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Deduplication Toggle and Count -->
+                    <div style="display: flex; align-items: center; gap: 1.5rem;">
+                        <div class="toggle-switch-container active" id="dedup-toggle-btn">
+                            <div class="toggle-switch"></div>
+                            <span style="font-weight: 500; color: var(--text-secondary);">Show Unique Articles Only</span>
+                        </div>
+                        <span id="results-count" class="results-stats">Showing 0 blogs</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Grid Section -->
+    <section class="blog-grid-section">
+        <div class="container">
+            <div class="blog-grid" id="blog-grid">
+                <!-- Blog cards generated by JS -->
+            </div>
+            
+            <!-- Empty State -->
+            <div class="empty-state" id="empty-state" style="display: none;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    <line x1="8" y1="11" x2="14" y2="11"></line>
+                </svg>
+                <h3 class="empty-state-title">No articles found</h3>
+                <p class="empty-state-desc">We couldn't find any articles matching your search query or filters. Try adjusting your search keywords or resetting filters.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reader Slide-Over Panel -->
+    <div class="reader-panel-overlay" id="reader-overlay">
+        <div class="reader-panel" id="reader-panel">
+            <!-- Progress Bar -->
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="reader-progress"></div>
+            </div>
+
+            <!-- Panel Header -->
+            <div class="reader-header">
+                <div class="reader-header-meta">
+                    <span id="reader-file-num" class="card-num">#001</span>
+                    <span id="reader-badge" class="badge">Category</span>
+                </div>
+                <div class="reader-actions-top">
+                    <!-- Share/Copy Link Button -->
+                    <button class="btn btn-secondary" id="reader-share-btn" style="padding: 0.4rem 0.8rem; font-size: 0.85rem; display: flex; align-items: center; gap: 0.35rem;">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                        </svg>
+                        Copy Link
+                    </button>
+                    <!-- Close button -->
+                    <button class="reader-close-btn" id="reader-close-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Panel Content Area -->
+            <div class="reader-content-area" id="reader-content-area">
+                <div class="article-meta-header">
+                    <div class="article-category">
+                        <span id="article-category-badge" class="badge">Category</span>
+                    </div>
+                    <h1 class="article-title" id="article-title">Why Your Real Estate Leads Go Cold Before You Even Call Them Back</h1>
+                    <div class="article-author-card">
+                        <div class="author-profile">
+                            <div class="avatar-large" id="article-author-avatar">S</div>
+                            <div class="author-detail">
+                                <span class="author-detail-name" id="article-author-name">Sai Chaitanya</span>
+                                <span class="author-detail-role" id="article-author-role">Co-founder & Product</span>
+                            </div>
+                        </div>
+                        <div class="article-metadata-date">
+                            <span id="article-date">July 5, 2026</span>
+                            <span id="article-read-time" style="color: var(--text-muted); font-size: 0.8rem; margin-top: 0.25rem;">6 min read</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Parsed Article HTML Body -->
+                <div class="article-body" id="article-body">
+                    <!-- HTML body generated by python will be injected here -->
+                </div>
+            </div>
+
+            <!-- Panel Footer Navigation -->
+            <div class="reader-nav-footer">
+                <button class="btn btn-secondary" id="reader-prev-btn" style="display: flex; align-items: center; gap: 0.5rem;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                    Previous
+                </button>
+                <button class="btn btn-secondary" id="reader-next-btn" style="display: flex; align-items: center; gap: 0.5rem;">
+                    Next
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-grid">
+            <div class="footer-about">
+                <img src="web_logos/logo_51.png" alt="Speaksy Logo">
+                <p class="footer-about-text">AI voice agents that talk to India the way India actually talks. Built for outbound call automation in Hinglish, Tanglish, and local accents.</p>
+            </div>
+            <div>
+                <h4 class="footer-title">Platform</h4>
+                <ul class="footer-links">
+                    <li><a href="https://speaksy.in" target="_blank" rel="noopener">Voice AI Calling</a></li>
+                    <li><a href="https://speaksy.in#features" target="_blank" rel="noopener">Dialect Support</a></li>
+                    <li><a href="https://speaksy.in#pricing" target="_blank" rel="noopener">Pricing Plans</a></li>
+                    <li><a href="https://speaksy.in" target="_blank" rel="noopener">CRM Integrations</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="footer-title">Company</h4>
+                <ul class="footer-links">
+                    <li><a href="https://speaksy.in" target="_blank" rel="noopener">About Us</a></li>
+                    <li><a href="https://speaksy.in" target="_blank" rel="noopener">Careers</a></li>
+                    <li><a href="https://speaksy.in" target="_blank" rel="noopener">Privacy Policy</a></li>
+                    <li><a href="https://speaksy.in" target="_blank" rel="noopener">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="footer-title">Contact</h4>
+                <ul class="footer-links">
+                    <li><a href="mailto:support@speaksy.in">support@speaksy.in</a></li>
+                    <li><a href="https://speaksy.in" target="_blank" rel="noopener">Contact Sales</a></li>
+                    <li><a href="https://speaksy.in" target="_blank" rel="noopener">Bengaluru, India</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="container footer-bottom">
+            <p>&copy; 2026 Speaksy Voice AI. All rights reserved.</p>
+            <p>Made with &hearts; in Bengaluru</p>
+        </div>
+    </footer>
+
+    <!-- Load compiled blog database -->
+    <script src="blogs_data.js"></script>
+
+    <!-- Client-side Application Script -->
+    <script>
+        // DOM Elements
+        const blogGrid = document.getElementById('blog-grid');
+        const emptyState = document.getElementById('empty-state');
+        const searchInput = document.getElementById('search-input');
+        const sortSelect = document.getElementById('sort-select');
+        const categoryPillsContainer = document.getElementById('category-pills');
+        const authorPillsContainer = document.getElementById('author-pills');
+        const dedupToggleBtn = document.getElementById('dedup-toggle-btn');
+        const resultsCountEl = document.getElementById('results-count');
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const headerLogoImg = document.getElementById('header-logo-img');
+        const toast = document.getElementById('toast');
+
+        // Reader Overlay elements
+        const readerOverlay = document.getElementById('reader-overlay');
+        const readerPanel = document.getElementById('reader-panel');
+        const readerCloseBtn = document.getElementById('reader-close-btn');
+        const readerProgress = document.getElementById('reader-progress');
+        const readerContentArea = document.getElementById('reader-content-area');
+        const readerFileNum = document.getElementById('reader-file-num');
+        const readerBadge = document.getElementById('reader-badge');
+        const readerShareBtn = document.getElementById('reader-share-btn');
+        
+        // Reader Content elements
+        const articleTitle = document.getElementById('article-title');
+        const articleCategoryBadge = document.getElementById('article-category-badge');
+        const articleAuthorAvatar = document.getElementById('article-author-avatar');
+        const articleAuthorName = document.getElementById('article-author-name');
+        const articleAuthorRole = document.getElementById('article-author-role');
+        const articleDate = document.getElementById('article-date');
+        const articleReadTime = document.getElementById('article-read-time');
+        const articleBody = document.getElementById('article-body');
+        
+        // Reader Footer Navigation elements
+        const readerPrevBtn = document.getElementById('reader-prev-btn');
+        const readerNextBtn = document.getElementById('reader-next-btn');
+
+        // Application State
+        let activeCategory = 'all';
+        let activeAuthor = 'all';
+        let searchQuery = '';
+        let sortBy = 'num-asc';
+        let showUniqueOnly = true;
+        let currentFilteredBlogs = [];
+        let currentlyOpenBlogId = null;
+
+        // Display category name mapping
+        const categoryLabels = {
+            'all': 'All Categories',
+            'appointment': 'Appointment Booking',
+            'comparison': 'Competitor Comparison',
+            'ecommerce': 'E-Commerce / RTO',
+            'edtech': 'EdTech / Admissions',
+            'general': 'General Voice AI',
+            'healthcare': 'Healthcare / Patients',
+            'how_to': 'How-To Guides',
+            'insurance': 'Insurance / Renewals',
+            'language': 'Dialects & Code-Switching',
+            'outbound': 'Outbound Campaigns',
+            'real_estate_finance': 'Real Estate & Finance',
+            'support': 'Customer Support'
+        };
+
+        // Initialize App
+        function init() {
+            // Load theme from localStorage
+            if (localStorage.getItem('theme') === 'dark') {
+                document.body.classList.add('dark');
+                updateThemeToggleIcon(true);
+            }
+
+            // Generate filter lists dynamically from dataset
+            renderCategoryFilters();
+            renderAuthorFilters();
+
+            // Set up main event listeners
+            searchInput.addEventListener('input', (e) => {
+                searchQuery = e.target.value;
+                render();
+            });
+
+            sortSelect.addEventListener('change', (e) => {
+                sortBy = e.target.value;
+                render();
+            });
+
+            dedupToggleBtn.addEventListener('click', () => {
+                showUniqueOnly = !showUniqueOnly;
+                dedupToggleBtn.classList.toggle('active', showUniqueOnly);
+                // Re-render filters count too
+                renderCategoryFilters();
+                renderAuthorFilters();
+                render();
+            });
+
+            themeToggleBtn.addEventListener('click', toggleTheme);
+
+            // Set up Reader event listeners
+            readerCloseBtn.addEventListener('click', closeArticle);
+            readerOverlay.addEventListener('click', (e) => {
+                if (e.target === readerOverlay) closeArticle();
+            });
+
+            readerContentArea.addEventListener('scroll', updateReadingProgress);
+
+            readerShareBtn.addEventListener('click', () => {
+                if (!currentlyOpenBlogId) return;
+                const link = `${window.location.origin}${window.location.pathname}#article-${currentlyOpenBlogId}`;
+                
+                // Copy to clipboard
+                navigator.clipboard.writeText(link).then(() => {
+                    toast.classList.add('show');
+                    setTimeout(() => toast.classList.remove('show'), 2500);
+                }).catch(err => {
+                    console.error('Failed to copy text: ', err);
+                });
+            });
+
+            readerPrevBtn.addEventListener('click', () => navigateArticle(-1));
+            readerNextBtn.addEventListener('click', () => navigateArticle(1));
+
+            // Check URL hash on page load
+            handleUrlHash();
+            window.addEventListener('hashchange', handleUrlHash);
+
+            // Initial render
+            render();
+        }
+
+        // Handle Direct Link via URL Hash (#article-001)
+        function handleUrlHash() {
+            const hash = window.location.hash;
+            if (hash && hash.startsWith('#article-')) {
+                const blogId = hash.replace('#article-', '');
+                // Verify if article exists
+                const blog = window.speaksyBlogs.find(b => b.id === blogId);
+                if (blog) {
+                    openArticle(blogId);
+                }
+            } else if (!hash && currentlyOpenBlogId) {
+                // If hash removed, close panel
+                closeArticle(false);
+            }
+        }
+
+        // Toggle Dark/Light Theme
+        function toggleTheme() {
+            const isDark = document.body.classList.toggle('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            updateThemeToggleIcon(isDark);
+        }
+
+        function updateThemeToggleIcon(isDark) {
+            if (isDark) {
+                // Moon to Sun icon
+                themeIcon.innerHTML = `
+                    <svg viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="5"/>
+                        <line x1="12" y1="1" x2="12" y2="3"/>
+                        <line x1="12" y1="21" x2="12" y2="23"/>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                        <line x1="1" y1="12" x2="3" y2="12"/>
+                        <line x1="21" y1="12" x2="23" y2="12"/>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                    </svg>
+                `;
+            } else {
+                // Sun to Moon icon
+                themeIcon.innerHTML = `
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 3c.132 0 .263 0 .393.007a7.5 7.5 0 0 0 7.92 12.446A9 9 0 1 1 12 3z"/>
+                    </svg>
+                `;
+            }
+        }
+
+        // Calculate and Render Categories dynamically
+        function renderCategoryFilters() {
+            // Get counts based on current deduplication setting
+            const counts = {};
+            window.speaksyBlogs.forEach(b => {
+                if (showUniqueOnly && b.is_duplicate) return;
+                counts[b.category] = (counts[b.category] || 0) + 1;
+            });
+
+            const uniqueCategories = Object.keys(counts).sort();
+            
+            // Total sum
+            const totalCount = showUniqueOnly 
+                ? window.speaksyBlogs.filter(b => !b.is_duplicate).length 
+                : window.speaksyBlogs.length;
+
+            categoryPillsContainer.innerHTML = '';
+            
+            // Add 'All' Pill
+            const allPill = createPill('all', `All Articles`, totalCount, activeCategory === 'all');
+            allPill.addEventListener('click', () => {
+                activeCategory = 'all';
+                updateActivePills(categoryPillsContainer, allPill);
+                render();
+            });
+            categoryPillsContainer.appendChild(allPill);
+
+            // Add other pills
+            uniqueCategories.forEach(cat => {
+                const label = categoryLabels[cat] || cat;
+                const pill = createPill(cat, label, counts[cat], activeCategory === cat);
+                pill.addEventListener('click', () => {
+                    activeCategory = cat;
+                    updateActivePills(categoryPillsContainer, pill);
+                    render();
+                });
+                categoryPillsContainer.appendChild(pill);
+            });
+        }
+
+        // Render Authors list dynamically
+        function renderAuthorFilters() {
+            const counts = {};
+            window.speaksyBlogs.forEach(b => {
+                if (showUniqueOnly && b.is_duplicate) return;
+                counts[b.author] = (counts[b.author] || 0) + 1;
+            });
+
+            const uniqueAuthors = Object.keys(counts).sort();
+            authorPillsContainer.innerHTML = '';
+
+            // Add 'All' Authors Pill
+            const totalCount = showUniqueOnly 
+                ? window.speaksyBlogs.filter(b => !b.is_duplicate).length 
+                : window.speaksyBlogs.length;
+
+            const allPill = createPill('all', 'All Authors', totalCount, activeAuthor === 'all');
+            allPill.addEventListener('click', () => {
+                activeAuthor = 'all';
+                updateActivePills(authorPillsContainer, allPill);
+                render();
+            });
+            authorPillsContainer.appendChild(allPill);
+
+            // Add specific authors
+            uniqueAuthors.forEach(author => {
+                const pill = createPill(author, author, counts[author], activeAuthor === author);
+                pill.addEventListener('click', () => {
+                    activeAuthor = author;
+                    updateActivePills(authorPillsContainer, pill);
+                    render();
+                });
+                authorPillsContainer.appendChild(pill);
+            });
+        }
+
+        function createPill(id, label, count, isActive) {
+            const button = document.createElement('button');
+            button.className = `pill ${isActive ? 'active' : ''}`;
+            button.dataset.id = id;
+            button.innerHTML = `${label} <span class="pill-count">${count}</span>`;
+            return button;
+        }
+
+        function updateActivePills(container, activePill) {
+            container.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+            activePill.classList.add('active');
+        }
+
+        // Core Filtering, Sorting & Rendering Logic
+        function render() {
+            // 1. Filter
+            currentFilteredBlogs = window.speaksyBlogs.filter(blog => {
+                // Check deduplication
+                if (showUniqueOnly && blog.is_duplicate) {
+                    return false;
+                }
+                
+                // Check Category
+                if (activeCategory !== 'all' && blog.category !== activeCategory) {
+                    return false;
+                }
+                
+                // Check Author
+                if (activeAuthor !== 'all' && blog.author !== activeAuthor) {
+                    return false;
+                }
+                
+                // Check Search Query
+                if (searchQuery.trim() !== '') {
+                    const query = searchQuery.toLowerCase().trim();
+                    const matchTitle = blog.title.toLowerCase().includes(query);
+                    const matchAuthor = blog.author.toLowerCase().includes(query);
+                    const matchCategory = (categoryLabels[blog.category] || '').toLowerCase().includes(query);
+                    const matchBody = blog.body.toLowerCase().includes(query); // search inside content!
+                    
+                    if (!matchTitle && !matchAuthor && !matchCategory && !matchBody) {
+                        return false;
+                    }
+                }
+                
+                return true;
+            });
+
+            // 2. Sort
+            currentFilteredBlogs.sort((a, b) => {
+                if (sortBy === 'num-asc') {
+                    return parseInt(a.id) - parseInt(b.id);
+                } else if (sortBy === 'num-desc') {
+                    return parseInt(b.id) - parseInt(a.id);
+                } else if (sortBy === 'title-asc') {
+                    return a.title.localeCompare(b.title);
+                } else if (sortBy === 'read-time-asc') {
+                    return a.read_time - b.read_time;
+                }
+                return 0;
+            });
+
+            // Update result statistics text
+            resultsCountEl.innerText = `Showing ${currentFilteredBlogs.length} of ${window.speaksyBlogs.length} articles`;
+
+            // 3. Render
+            blogGrid.innerHTML = '';
+            
+            if (currentFilteredBlogs.length === 0) {
+                emptyState.style.display = 'block';
+                blogGrid.style.display = 'none';
+            } else {
+                emptyState.style.display = 'none';
+                blogGrid.style.display = 'grid';
+
+                currentFilteredBlogs.forEach(blog => {
+                    const card = document.createElement('div');
+                    card.className = 'blog-card';
+                    card.addEventListener('click', () => {
+                        window.location.hash = `#article-${blog.id}`;
+                    });
+
+                    // Parse first letter of author for placeholder avatar
+                    const avatarLetter = blog.author.charAt(0);
+                    const categoryLabel = categoryLabels[blog.category] || blog.category;
+
+                    // Check if duplicate tag is needed
+                    const duplicateBadge = (!showUniqueOnly && blog.is_duplicate)
+                        ? `<span class="blog-card-duplicate-badge">Version of #${blog.duplicate_of}</span>`
+                        : '';
+
+                    card.innerHTML = `
+                        <div class="blog-card-tag-row">
+                            <span class="card-num">#${blog.id}</span>
+                            <span class="badge cat-${blog.category}">${categoryLabel}</span>
+                        </div>
+                        <div class="blog-card-cover">
+                            <!-- Speaksy Icon embedded inside cover -->
+                            <img src="web_logos/logo_49.png" alt="Speaksy Mark" class="cover-logo-icon">
+                        </div>
+                        <div class="blog-card-content">
+                            <h3 class="blog-card-title">${blog.title}</h3>
+                            <p class="blog-card-excerpt">${stripHtml(blog.body).substring(0, 140)}...</p>
+                            
+                            ${duplicateBadge}
+
+                            <div class="blog-card-footer">
+                                <div class="blog-card-author-info">
+                                    <div class="author-avatar">${avatarLetter}</div>
+                                    <span class="author-name">${blog.author}</span>
+                                </div>
+                                <div class="blog-card-meta">
+                                    <span>${formatDate(blog.date)}</span>
+                                    <span>${blog.read_time} min read</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    blogGrid.appendChild(card);
+                });
+            }
+        }
+
+        // Open Reader Panel for Article
+        function openArticle(blogId) {
+            const blog = window.speaksyBlogs.find(b => b.id === blogId);
+            if (!blog) return;
+
+            currentlyOpenBlogId = blogId;
+
+            // Fill reader panel content
+            readerFileNum.innerText = `#${blog.id}`;
+            
+            const categoryLabel = categoryLabels[blog.category] || blog.category;
+            readerBadge.className = `badge cat-${blog.category}`;
+            readerBadge.innerText = categoryLabel;
+            
+            articleCategoryBadge.className = `badge cat-${blog.category}`;
+            articleCategoryBadge.innerText = categoryLabel;
+            
+            articleTitle.innerText = blog.title;
+            articleAuthorAvatar.innerText = blog.author.charAt(0);
+            articleAuthorName.innerText = blog.author;
+            articleAuthorRole.innerText = blog.role;
+            articleDate.innerText = formatDate(blog.date);
+            articleReadTime.innerText = `${blog.read_time} min read (${blog.word_count} words)`;
+            articleBody.innerHTML = blog.body;
+
+            // Scroll reader body back to top
+            readerContentArea.scrollTop = 0;
+            readerProgress.style.width = '0%';
+
+            // Show overlays and body lock
+            readerOverlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
+
+            // Update Nav Prev/Next Buttons state
+            const currentIndex = currentFilteredBlogs.findIndex(b => b.id === blogId);
+            
+            // If the opened blog is not in the currently filtered list (e.g. direct link with filters active)
+            // we search in the main list of blogs
+            const listToNavigate = currentIndex !== -1 ? currentFilteredBlogs : window.speaksyBlogs;
+            const navigationIndex = listToNavigate.findIndex(b => b.id === blogId);
+
+            readerPrevBtn.disabled = navigationIndex <= 0;
+            readerNextBtn.disabled = navigationIndex >= listToNavigate.length - 1;
+            
+            // Adjust opacity and classes based on disabled state
+            readerPrevBtn.style.opacity = navigationIndex <= 0 ? '0.5' : '1';
+            readerNextBtn.style.opacity = navigationIndex >= listToNavigate.length - 1 ? '0.5' : '1';
+        }
+
+        // Close Reader Panel
+        function closeArticle(clearHash = true) {
+            currentlyOpenBlogId = null;
+            readerOverlay.classList.remove('open');
+            document.body.style.overflow = '';
+            
+            if (clearHash) {
+                // Clear the hash without reloading
+                history.pushState("", document.title, window.location.pathname + window.location.search);
+            }
+        }
+
+        // Navigate Next/Prev Articles inside reader panel
+        function navigateArticle(direction) {
+            if (!currentlyOpenBlogId) return;
+
+            const listToNavigate = currentFilteredBlogs.length > 0 ? currentFilteredBlogs : window.speaksyBlogs;
+            const currentIndex = listToNavigate.findIndex(b => b.id === currentlyOpenBlogId);
+            
+            if (currentIndex === -1) return;
+
+            const targetIndex = currentIndex + direction;
+            if (targetIndex >= 0 && targetIndex < listToNavigate.length) {
+                const targetBlog = listToNavigate[targetIndex];
+                window.location.hash = `#article-${targetBlog.id}`;
+            }
+        }
+
+        // Update Reading progress bar width
+        function updateReadingProgress() {
+            const scrollHeight = readerContentArea.scrollHeight - readerContentArea.clientHeight;
+            if (scrollHeight <= 0) {
+                readerProgress.style.width = '0%';
+                return;
+            }
+            const scrollPercentage = (readerContentArea.scrollTop / scrollHeight) * 100;
+            readerProgress.style.width = `${scrollPercentage}%`;
+        }
+
+        // Helper: Strip HTML tags to get excerpt
+        function stripHtml(html) {
+            const tempDiv = document.createElement("div");
+            tempDiv.innerHTML = html;
+            return tempDiv.textContent || tempDiv.innerText || "";
+        }
+
+        // Helper: Format date (YYYY-MM-DD to Month Day, YYYY)
+        function formatDate(dateStr) {
+            try {
+                const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                const dateObj = new Date(dateStr);
+                // Fallback if Date object fails
+                if (isNaN(dateObj.getTime())) return dateStr;
+                return dateObj.toLocaleDateString('en-US', options);
+            } catch (e) {
+                return dateStr;
+            }
+        }
+
+        // Fire on page load
+        window.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
